@@ -1,12 +1,14 @@
 #include "game.hpp" 
 #include "texture_manager.hpp"
 #include "game_object.hpp"
+#include "Map.hpp"
 
-GameObject* player;
-GameObject* enemy[10];
+GameObject* player; 
+SDL_Renderer* Game::renderer = nullptr;
+Map* map; 
 
 Game::Game()
-: isRunning(false), window(nullptr), renderer(nullptr)
+: isRunning(false), window(nullptr)
 {}
 
 Game::~Game()
@@ -38,7 +40,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
         if (renderer) {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
             std::cout << "Renderer created!" << std::endl;
         }
 
@@ -47,13 +49,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    player = new GameObject("assets/character/idle/tile000.png", renderer, 0, 0);
-
-    for (int i = 0; i < 10; i++) 
-    {
-        std::string asset {"assets/character/idle/tile00" + std::to_string(i) + ".png"};
-        enemy[i] = new GameObject(asset.c_str(), renderer, i*15, i*15);
-    }
+    player = new GameObject("assets/character/idle/tile000.png", 0, 0);
+    map = new Map(); 
 }
 
 void Game::handleEvents()
@@ -73,21 +70,16 @@ void Game::handleEvents()
 void Game::update()
 { 
     // update game objects here -> all game related update functions like player update, enemy update, etc.
-    player->Update();
-    for (int i = 0; i < 10; i++) 
-    {
-        enemy[i]->Update();
-    }
+    player->Update(); 
 }
 
 void Game::render()
 {
     SDL_RenderClear(this->renderer); // clear the window to the renderer color
-    // add stuff to render here: what ever paints first is in the back and everything goes on top.  
-    player->Render(this->renderer);
-    for (int i = 0; i < 10; i++) {
-        enemy[i]->Render(this->renderer);
-    }; 
+
+    // add stuff to render here: what ever paints first is in the back and everything goes on top. 
+    map->drawMap(); 
+    player->Render(); 
     
     SDL_RenderPresent(this->renderer); // present the updated renderer to the window
 }
