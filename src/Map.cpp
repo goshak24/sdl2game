@@ -1,7 +1,7 @@
 #include "Map.hpp"
 #include "texture_manager.hpp"
 
-int lvl1[20][25] = { // array map for level 1 
+static int lvl1[20][25] = { // array map for level 1 
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,2,0,1,1,1,1},
     {1,1,1,1,0,2,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1},
@@ -24,6 +24,31 @@ int lvl1[20][25] = { // array map for level 1
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
 };
 
+static int lvl2[20][25] = { // mostly dirt map
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1},
+    {1,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, 
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+}; 
+
+int Map::map[20][25];
+
 Map::Map()
 {
     // Load texture images with texture manager 
@@ -31,7 +56,7 @@ Map::Map()
     grass = TextureManager::LoadTexture("assets/grass.png"); // 1
     water = TextureManager::LoadTexture("assets/water.png"); // 2
 
-    Map::loadMap(lvl1); 
+    Map::loadMap(1); 
 
     // set source rectangles 
 
@@ -42,14 +67,31 @@ Map::Map()
     dest.x = dest.y = 0; // this is changed on every draw anyway 
 }
 
-void Map::loadMap(int arr[20][25])
+void Map::loadMap(int level)
 {
-    // replace global map with our passed array 
-    for (int row = 0; row < 20; row++) {
-        for (int column = 0; column < 25; column++) {
-            map[row][column] = arr[row][column]; // map replacing 
-        }
-    }  
+    switch (level) {
+        case 1:
+            for (int row = 0; row < 20; row++) {
+                for (int column = 0; column < 25; column++) {
+                    Map::map[row][column] = lvl1[row][column];
+                }
+            }
+            break;
+        case 2:
+            for (int row = 0; row < 20; row++) {
+                for (int column = 0; column < 25; column++) {
+                    Map::map[row][column] = lvl2[row][column];
+                }
+            }
+            break;
+        default:
+            for (int row = 0; row < 20; row++) {
+                for (int column = 0; column < 25; column++) {
+                    Map::map[row][column] = lvl1[row][column];
+                }
+            }
+            break;
+    }
 }
 
 void Map::drawMap() 
@@ -58,7 +100,7 @@ void Map::drawMap()
     for (int row = 0; row < 20; row++) {
         
         for (int column = 0; column < 25; column++) {
-            type = map[row][column]; // get row column type 
+            type = Map::map[row][column]; // get row column type 
 
             // when row and column are 0 draw top left, then move 32 pixels on every increment for destination from the source 
             dest.x = column * 32; 
@@ -77,3 +119,7 @@ void Map::drawMap()
         }
     } 
 } 
+
+void Map::switchMap(int lvl) {
+    Map::loadMap(lvl);
+}

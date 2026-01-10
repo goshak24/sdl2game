@@ -8,12 +8,20 @@ public:
 
     void Update();
 
-    void Render();
+    void Render(); 
+
+    // Setters
+    void setX(int x) { xpos = x; }
+    void setY(int y) { ypos = y; }
+
+    // Getter
+    int getX() const { return xpos; }
+    int getY() const { return ypos; }
     
 private:
     int xpos;
     int ypos;
     SDL_Texture* objTexture;
     SDL_Rect srcRect, destRect; 
-    bool movingRight;
+    // bool movingRight;
 };

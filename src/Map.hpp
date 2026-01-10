@@ -4,10 +4,11 @@
 class Map {
     public: 
         Map(); 
-        ~Map();
+        ~Map() = default;
 
-        void loadMap(int arr[20][25]);
+        static void loadMap(int level);
         void drawMap(); 
+        static void switchMap(int lvl); 
 
     private:
         SDL_Rect src, dest; // hold source and destination rectangles
@@ -16,5 +17,5 @@ class Map {
         SDL_Texture* grass; 
         SDL_Texture* water; 
 
-        int map[20][25]; // holds the map data : defines where to draw which tile type 
+        static int map[20][25]; // holds the map data : defines where to draw which tile type 
 }; 
