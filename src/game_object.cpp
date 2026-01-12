@@ -40,7 +40,7 @@ void GameObject::Update() {
 
 void GameObject::Render() {
     // Flip horizontally when moving left to show a mirrored sprite 
-    SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
+    SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect); 
 }
 
 GameObject::~GameObject() {

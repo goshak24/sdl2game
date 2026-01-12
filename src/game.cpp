@@ -50,8 +50,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    player = new Player("assets/character/idle/tile000.png", 0, 0);
+    player = new Player("assets/character/idle/tile000.png", 0, 0); // coincide pics with 22 and then 20 if idle. 
     map = new Map(); 
+
+    
 }
 
 void Game::handleEvents()
@@ -74,6 +76,7 @@ void Game::update()
 { 
     // update game objects here -> all game related update functions like player update, enemy update, etc.
     player->Update(); 
+    player->updateIdle(); // update player idle textures 
 }
 
 void Game::render()
@@ -82,6 +85,7 @@ void Game::render()
 
     // add stuff to render here: what ever paints first is in the back and everything goes on top. 
     map->drawMap(); 
+    
     player->Render(); 
     
     SDL_RenderPresent(this->renderer); // present the updated renderer to the window
