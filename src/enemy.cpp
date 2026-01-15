@@ -31,12 +31,24 @@ void Enemy::moveEnemy(Player* player)
 
     std::cout << player->getX() << getX() << std::endl; 
 
-    int playerX = player->getX(); 
-    int enemyX = getX(); 
+    int dX = player->getX() - getX(); 
+    int dY = player->getY() - getY(); 
+    int stopRadius = 100; 
 
-
-    if (player->getX() - getX() > 100) 
+    if (std::abs(dX) <= stopRadius && std::abs(dY) <= stopRadius)
     {
-        setX(getX() + 20); 
+        return;
+    }
+
+    // Move X direction 
+    if (std::abs(dX) > stopRadius)
+    {
+        setX(getX() + (dX > 0 ? 20 : -20)); // check positive or negative direction 
+    }
+
+    // Move Y direction 
+    if (std::abs(dY) > stopRadius)
+    {
+        setY(getY() + (dY > 0 ? 20 : -20)); 
     }
 } 
