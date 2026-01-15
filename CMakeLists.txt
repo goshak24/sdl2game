@@ -9,7 +9,21 @@ find_package(SDL2 REQUIRED)
 
 find_package(SDL2_image REQUIRED)
 
-add_executable(game1 src/main.cpp src/game.cpp src/texture_manager.cpp src/game_object.cpp src/Map.cpp src/game.hpp src/texture_manager.hpp src/game_object.hpp src/Map.hpp src/player.hpp src/player.cpp)
+add_executable(game1 
+src/main.cpp 
+src/game.cpp 
+src/texture_manager.cpp 
+src/game_object.cpp 
+src/Map.cpp 
+src/game.hpp 
+src/texture_manager.hpp 
+src/game_object.hpp 
+src/Map.hpp 
+src/player.hpp 
+src/player.cpp
+src/enemy.hpp
+src/enemy.cpp
+)
 
 if (TARGET SDL2::SDL2)
   target_link_libraries(game1 PRIVATE SDL2::SDL2)

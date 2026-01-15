@@ -24,6 +24,7 @@ public:
 private:
     int xpos;
     int ypos;
+    bool movingRight = false;
     SDL_Texture* objTexture;
     SDL_Rect srcRect, destRect; 
     // bool movingRight;

@@ -2,11 +2,14 @@
 #include "texture_manager.hpp"
 #include "game_object.hpp"
 #include "Map.hpp"
-#include "player.hpp" 
+#include "player.hpp"
+#include "enemy.hpp" 
+#include <iostream>
 
 Player* player; 
 SDL_Renderer* Game::renderer = nullptr;
 Map* map; 
+Enemy* enemy; 
 
 Game::Game()
 : isRunning(false), window(nullptr)
@@ -52,8 +55,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     player = new Player("assets/character/idle/tile000.png", 0, 0); // coincide pics with 22 and then 20 if idle. 
     map = new Map(); 
-
-    
+    enemy = new Enemy("assets/character/idle/tile010.png", 200, 20, 25); 
 }
 
 void Game::handleEvents()
@@ -74,9 +76,16 @@ void Game::handleEvents()
 
 void Game::update()
 { 
-    // update game objects here -> all game related update functions like player update, enemy update, etc.
+    // update game objects here -> all game related update functions like player update, enemy update, etc. 
     player->Update(); 
     player->updateIdle(); // update player idle textures 
+
+    bool moveEnemy = true;
+    enemy->moveEnemy(player); 
+    enemy->Update(); 
+    
+    bool enemyHit = true; // set this based on collision logic -> true decrements health 
+    enemy->updateEnemyHealth(enemyHit);  
 }
 
 void Game::render()
@@ -87,6 +96,7 @@ void Game::render()
     map->drawMap(); 
     
     player->Render(); 
+    enemy->Render(); 
     
     SDL_RenderPresent(this->renderer); // present the updated renderer to the window
 }
@@ -96,8 +106,11 @@ void Game::clean()
     delete map;
     delete player;
 
+    delete enemy; 
+
     map = nullptr;
     player = nullptr;
+    enemy = nullptr; 
 
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
