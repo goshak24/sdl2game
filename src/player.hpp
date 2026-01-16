@@ -1,13 +1,14 @@
 #pragma once
 #include "game_object.hpp"
 #include <chrono>
+#include <vector>
 
 class Player : public GameObject 
 {
 public:
     Player(const char* textureSheet, int x, int y);
 
-    void handleKeyboardPress(Uint8 event);
+    void handleKeyboardPress(const Uint8* keystate);
     void updateIdle();
 
     void updateMove(std::vector<SDL_Texture*>& textures); 

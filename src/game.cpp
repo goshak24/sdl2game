@@ -4,12 +4,13 @@
 #include "Map.hpp"
 #include "player.hpp"
 #include "enemy.hpp" 
-#include <iostream>
+#include <iostream> 
 
 Player* player; 
 SDL_Renderer* Game::renderer = nullptr;
 Map* map; 
-Enemy* enemy; 
+Enemy* enemy;  
+const Uint8 *keystate = SDL_GetKeyboardState(NULL); 
 
 Game::Game()
 : isRunning(false), window(nullptr)
@@ -59,7 +60,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 }
 
 void Game::handleEvents()
-{
+{  
     SDL_Event event; 
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -67,19 +68,19 @@ void Game::handleEvents()
                 isRunning = false;
                 break;
             case SDL_KEYDOWN: 
-                player->handleKeyboardPress(event.key.keysym.scancode);  
+                player->handleKeyboardPress(keystate); 
             default:
                 break;
-        }
+        } 
     }
 }
 
 void Game::update()
-{ 
+{  
     // update game objects here -> all game related update functions like player update, enemy update, etc. 
     player->Update(); 
-    player->updateIdle(); // update player idle textures 
-
+    player->updateIdle(); // update player idle textures  
+    
     bool moveEnemy = true;
     enemy->moveEnemy(player); 
     enemy->Update(); 
