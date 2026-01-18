@@ -23,6 +23,8 @@ src/player.hpp
 src/player.cpp
 src/enemy.hpp
 src/enemy.cpp
+src/bullet.hpp
+src/bullet.cpp
 )
 
 if (TARGET SDL2::SDL2)

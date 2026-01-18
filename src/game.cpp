@@ -5,6 +5,7 @@
 #include "player.hpp"
 #include "enemy.hpp" 
 #include <iostream> 
+#include "bullet.hpp"
 
 Player* player; 
 SDL_Renderer* Game::renderer = nullptr;
@@ -54,9 +55,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    player = new Player("assets/character/idle/tile000.png", 0, 0); // coincide pics with 22 and then 20 if idle. 
+    player = new Player("assets/character/idle/tile000.png", 0, 0);
     map = new Map(); 
-    enemy = new Enemy("assets/character/idle/tile010.png", 200, 20, 25); 
+    enemy = new Enemy("assets/character/idle/tile010.png", 200, 20, 25);
 }
 
 void Game::handleEvents()
@@ -77,36 +78,35 @@ void Game::handleEvents()
 
 void Game::update()
 {  
-    // update game objects here -> all game related update functions like player update, enemy update, etc. 
     player->Update(); 
-    player->updateIdle(); // update player idle textures  
+    player->updateIdle(); 
     
-    bool moveEnemy = true;
     enemy->moveEnemy(player); 
+    enemy->shootAtPlayer(player);
+    enemy->updateBullets();
     enemy->Update(); 
     
-    bool enemyHit = true; // set this based on collision logic -> true decrements health 
+    bool enemyHit = true;
     enemy->updateEnemyHealth(enemyHit);  
 }
 
 void Game::render()
 {
-    SDL_RenderClear(this->renderer); // clear the window to the renderer color
+    SDL_RenderClear(this->renderer);
 
-    // add stuff to render here: what ever paints first is in the back and everything goes on top. 
     map->drawMap(); 
     
     player->Render(); 
     enemy->Render(); 
+    enemy->renderBullets();
     
-    SDL_RenderPresent(this->renderer); // present the updated renderer to the window
+    SDL_RenderPresent(this->renderer);
 }
 
 void Game::clean()
 { 
     delete map;
     delete player;
-
     delete enemy; 
 
     map = nullptr;
@@ -117,4 +117,4 @@ void Game::clean()
     SDL_DestroyWindow(this->window);
     SDL_Quit(); 
     std::cout << "Game Cleaned..." << std::endl;
-}  
+}
