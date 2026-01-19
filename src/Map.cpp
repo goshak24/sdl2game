@@ -67,41 +67,25 @@ Map::Map()
     dest.x = dest.y = 0; // this is changed on every draw anyway 
 }
 
-void Map::loadMap(int level)
+void Map::setRandomMap() 
 {
-    switch (level) {
-        case 1:
-            for (int row = 0; row < 20; row++) {
-                for (int column = 0; column < 25; column++) {
-                    Map::map[row][column] = lvl1[row][column];
-                }
-            }
-            break;
-        case 2:
-            for (int row = 0; row < 20; row++) {
-                for (int column = 0; column < 25; column++) {
-                    Map::map[row][column] = lvl2[row][column];
-                }
-            }
-            break;
-        default:
-            for (int row = 0; row < 20; row++) {
-                for (int column = 0; column < 25; column++) {
-                    Map::map[row][column] = lvl1[row][column];
-                }
-            }
-            break;
-    }
+    srand((unsigned) time(NULL));
+
+    for (int row = 0; row < 20; row++) {
+        for (int column = 0; column < 25; column++) {
+            int random = rand();  // Generate NEW random number for EACH tile
+            lvl2[row][column] = random % 3;  // 0=dirt, 1=grass, 2=water
+        }
+    } 
 }
 
 void Map::drawMap() 
-{
-    int type = 0; 
+{ 
+    int type = 0;
     for (int row = 0; row < 20; row++) {
         
         for (int column = 0; column < 25; column++) {
-            type = Map::map[row][column]; // get row column type 
-
+            type = lvl2[row][column]; 
             // when row and column are 0 draw top left, then move 32 pixels on every increment for destination from the source 
             dest.x = column * 32; 
             dest.y = row * 32; 
@@ -119,6 +103,12 @@ void Map::drawMap()
         }
     } 
 } 
+
+void Map::loadMap(int level)
+{
+    // Note: This is a static function, but we'll track the level globally
+    setRandomMap(); 
+}
 
 void Map::switchMap(int lvl) {
     Map::loadMap(lvl);
