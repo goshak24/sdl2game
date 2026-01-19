@@ -16,6 +16,9 @@ class Bullet : public GameObject
         bool isActive() { return active; };
         void deactivate() { active = false; };
 
+        float getX() { return posX; };
+        float getY() { return posY; }; 
+
     private:
         bool active = true;
         float posX;  

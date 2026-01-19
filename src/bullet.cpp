@@ -19,7 +19,7 @@ void Bullet::Update(int playerX, int playerY)
     // Sync with GameObject position so Render() uses updated coords
     setX((int)posX);
     setY((int)posY); 
-    
+
     if (checkCollision(playerX, playerY))
     {
         active = false;
@@ -34,20 +34,16 @@ void Bullet::Update(int playerX, int playerY)
 } 
 
 bool Bullet::checkCollision(int playerX, int playerY)
-{
-    if (getX() == playerX && getY() == playerY) 
-    {
+{ 
     int dx = getX() - playerX;
-    int dy = getY() - playerY;
-    int distance = std::sqrt(dx * dx + dy * dy);
+    int dy = getY() - playerY; 
+     
+    float distance = std::sqrt(dx * dx + dy * dy); 
     
-    if (distance < 30)  
+    if (distance < 40) 
     {
         std::cout << "Bullet hit player!" << std::endl;
         return true;
     }
-        return false;
-    }
-
-    return false; 
-}
+    return false;
+} 

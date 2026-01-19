@@ -99,7 +99,7 @@ void Player::updateMove(std::vector<SDL_Texture*>& textures)
 {
     auto now = std::chrono::steady_clock::now();
     auto elapsed =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMoveTime);
+        std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMoveTime); 
 
     if (elapsed.count() > 150)
     {
