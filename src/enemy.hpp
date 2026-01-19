@@ -14,6 +14,7 @@ public:
     void updateEnemyHealth(bool isHit); 
     void moveEnemy(Player* player); 
     void shootAtPlayer(Player* player);
+    void setPlayer(Player* player);
     void updateBullets();
     void renderBullets();
 
@@ -27,5 +28,6 @@ private:
     std::chrono::steady_clock::time_point lastDamageTime;
     std::chrono::steady_clock::time_point lastShootTime;
     std::vector<Bullet*> bullets;
-    int health = 200; 
+    int health = 200;
+    Player* playerPtr = nullptr; 
 }; 

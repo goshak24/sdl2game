@@ -1,7 +1,7 @@
 #include "game.hpp" 
 #include "texture_manager.hpp"
 #include "game_object.hpp"
-#include "Map.hpp"
+#include "Map.hpp" 
 #include "player.hpp"
 #include "enemy.hpp" 
 #include <iostream> 
@@ -58,6 +58,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player = new Player("assets/character/idle/tile000.png", 0, 0);
     map = new Map(); 
     enemy = new Enemy("assets/character/idle/tile010.png", 200, 20, 25);
+    enemy->setPlayer(player);
 }
 
 void Game::handleEvents()

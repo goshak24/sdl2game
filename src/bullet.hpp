@@ -11,7 +11,8 @@ class Bullet : public GameObject
         Bullet(const char* textureSheet, int x, int y, float vx, float vy); 
         ~Bullet(); 
 
-        void Update(); 
+        void Update(int playerX, int playerY); 
+        bool checkCollision(int playerX, int playerY); 
         bool isActive() { return active; };
         void deactivate() { active = false; };
 

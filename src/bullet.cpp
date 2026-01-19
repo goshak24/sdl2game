@@ -1,6 +1,7 @@
 #include "bullet.hpp"
 #include <iostream>
 #include <cmath> 
+#include <iostream>
 
 Bullet::Bullet(const char* textureSheet, int x, int y, float vx, float vy) 
     :   GameObject(textureSheet, x, y), posX(x), posY(y), vx(vx), vy(vy)
@@ -9,7 +10,7 @@ Bullet::Bullet(const char* textureSheet, int x, int y, float vx, float vy)
 
 Bullet::~Bullet() {} 
 
-void Bullet::Update()
+void Bullet::Update(int playerX, int playerY)
 {
     // Move bullet every frame
     posX += vx;
@@ -17,12 +18,36 @@ void Bullet::Update()
     
     // Sync with GameObject position so Render() uses updated coords
     setX((int)posX);
-    setY((int)posY);
+    setY((int)posY); 
     
+    if (checkCollision(playerX, playerY))
+    {
+        active = false;
+    }
+
     // Call parent Update to sync destRect
     GameObject::Update();
     
     // Deactivate if off-screen
-    if (posX < 0 || posX > 800 || posY < 0 || posY > 600)
-        active = false;
+    if (posX < 0 || posX > 800 || posY < 0 || posY > 600) 
+        active = false; 
+} 
+
+bool Bullet::checkCollision(int playerX, int playerY)
+{
+    if (getX() == playerX && getY() == playerY) 
+    {
+    int dx = getX() - playerX;
+    int dy = getY() - playerY;
+    int distance = std::sqrt(dx * dx + dy * dy);
+    
+    if (distance < 30)  
+    {
+        std::cout << "Bullet hit player!" << std::endl;
+        return true;
+    }
+        return false;
+    }
+
+    return false; 
 }

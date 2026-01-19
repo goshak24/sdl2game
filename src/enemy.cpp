@@ -9,6 +9,11 @@ Enemy::Enemy(const char* textureSheet, int health, int x, int y)
     lastShootTime = std::chrono::steady_clock::now();
 }
 
+void Enemy::setPlayer(Player* player)
+{
+    playerPtr = player;
+}
+
 Enemy::~Enemy()
 {
     for (auto bullet : bullets) {
@@ -87,8 +92,10 @@ void Enemy::shootAtPlayer(Player* player)
 
 void Enemy::updateBullets()
 {
+    if (!playerPtr) return;
+    
     for (auto it = bullets.begin(); it != bullets.end(); ) {
-        (*it)->Update();
+        (*it)->Update(playerPtr->getX(), playerPtr->getY());
         if (!(*it)->isActive()) {
             delete *it;
             it = bullets.erase(it);
