@@ -1,6 +1,7 @@
 #include "bullet.hpp"
 #include <iostream>
 #include <cmath> 
+#include <thread>
 #include <iostream>
 
 Bullet::Bullet(const char* textureSheet, int x, int y, float vx, float vy) 
@@ -34,16 +35,34 @@ void Bullet::Update(int playerX, int playerY)
 } 
 
 bool Bullet::checkCollision(int playerX, int playerY)
-{ 
+{
     int dx = getX() - playerX;
-    int dy = getY() - playerY; 
-     
-    float distance = std::sqrt(dx * dx + dy * dy); 
-    
-    if (distance < 40) 
+    int dy = getY() - playerY;
+
+    float distance = std::sqrt(dx * dx + dy * dy);
+
+    if (distance < 40.0f)
     {
-        std::cout << "Bullet hit player!" << std::endl;
-        return true;
+        auto now = std::chrono::steady_clock::now();
+
+        if (!hitTimerStarted)
+        {
+            hitStart = now;  
+            hitTimerStarted = true;
+        }
+
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - hitStart
+        ).count();
+
+        if (elapsed >= 200)
+            return true;
     }
+    else
+    {
+        // reset if player leaves collision range
+        hitTimerStarted = false;
+    }
+
     return false;
 } 

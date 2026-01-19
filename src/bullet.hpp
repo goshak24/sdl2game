@@ -21,6 +21,8 @@ class Bullet : public GameObject
 
     private:
         bool active = true;
+        std::chrono::steady_clock::time_point hitStart;
+        bool hitTimerStarted = false;
         float posX;  
         float posY;
         float vx;
