@@ -36,6 +36,13 @@ Player::Player(const char* textureSheet, int x, int y)
     };
 }    
 
+Player::~Player() {
+    for (auto bullet : playerBullets) {
+        delete bullet;
+    }
+    playerBullets.clear();
+}
+
 void Player::handleKeyboardPress(const Uint8* keystate) 
 {
     bool moved = false;

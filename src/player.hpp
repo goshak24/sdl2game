@@ -9,6 +9,7 @@ class Player : public GameObject
 {
 public:
     Player(const char* textureSheet, int x, int y);
+    ~Player(); 
 
     void handleKeyboardPress(const Uint8* keystate);
     void updateIdle();

@@ -1,6 +1,7 @@
 #pragma once
 #include "game_object.hpp"
 #include <chrono>
+#include "Map.hpp"
 
 #include <iostream>
 class Player; 

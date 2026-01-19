@@ -53,10 +53,10 @@ bool Bullet::checkCollision(int playerX, int playerY)
 
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - hitStart
-        ).count();
+        ).count(); 
 
         if (elapsed >= 200)
-            return true;
+            return true; 
     }
     else
     {
