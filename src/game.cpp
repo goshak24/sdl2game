@@ -81,6 +81,8 @@ void Game::update()
 {  
     player->Update(); 
     player->updateIdle(); 
+    player->updateBullets(); 
+    player->renderBullets(); 
     
     enemy->moveEnemy(player); 
     enemy->shootAtPlayer(player);
@@ -98,6 +100,7 @@ void Game::render()
     map->drawMap(); 
     
     player->Render(); 
+    player->renderBullets(); 
     enemy->Render(); 
     enemy->renderBullets();
     

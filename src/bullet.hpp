@@ -3,7 +3,7 @@
 #include <chrono>
 
 #include <iostream>
-#include "player.hpp"
+class Player; 
 
 class Bullet : public GameObject 
 {
