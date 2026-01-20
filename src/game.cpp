@@ -56,7 +56,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
 
     player = new Player("assets/character/idle/tile000.png", 0, 0);
-    map = new Map(); 
+    map = Map::getInstance();
     Map::loadMap(1);  // Load level 1 once during initialization
     enemy = new Enemy("assets/character/idle/tile010.png", 200, 20, 25);
     enemy->setPlayer(player);
@@ -99,7 +99,6 @@ void Game::render()
     SDL_RenderClear(this->renderer);
 
     map->drawMap(); 
-    map->switchMap(int(map->getCurrentLevel()) + 1); 
     
     player->Render(); 
     player->renderBullets(); 

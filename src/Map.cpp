@@ -48,6 +48,7 @@ static int lvl2[20][25] = { // mostly dirt map
 }; 
 
 int Map::map[20][25];
+Map* Map::instance = nullptr;
 
 Map::Map()
 {
@@ -112,4 +113,11 @@ void Map::loadMap(int level)
 
 void Map::switchMap(int lvl) {
     Map::loadMap(lvl);
+}
+
+Map* Map::getInstance() { // one static instance of map across program running 
+    if (instance == nullptr) {
+        instance = new Map();
+    }
+    return instance;
 }

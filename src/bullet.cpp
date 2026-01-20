@@ -4,6 +4,8 @@
 #include <thread>
 #include <iostream>
 
+#include "Map.hpp"  
+
 Bullet::Bullet(const char* textureSheet, int x, int y, float vx, float vy) 
     :   GameObject(textureSheet, x, y), posX(x), posY(y), vx(vx), vy(vy)
 {
@@ -23,7 +25,8 @@ void Bullet::Update(int playerX, int playerY)
 
     if (checkCollision(playerX, playerY))
     {
-        active = false;
+        active = false; 
+        Map::getInstance()->switchMap(Map::getInstance()->getCurrentLevel() + 1);
     }
 
     // Call parent Update to sync destRect
