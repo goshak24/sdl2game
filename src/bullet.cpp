@@ -58,7 +58,7 @@ bool Bullet::checkCollision(int playerX, int playerY)
             now - hitStart
         ).count(); 
 
-        if (elapsed >= 200)
+        if (elapsed >= 10)
             return true; 
     }
     else
